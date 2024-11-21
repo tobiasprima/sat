@@ -9,12 +9,14 @@ func main() {
 	db := config.ConnectDatabase()
 	defer db.Close()
 
-	fmt.Print("Input user name:")
-	var username string
-	fmt.Scan(&username)
+	fmt.Println("Welcome to the SAT system!")
 
-	fmt.Print("Input password:")
-	var password string
-	fmt.Scan(&password)
-
+	for {
+		fmt.Println("Please log in to continue.")
+		// Login handler disini
+		// if handlers.LoginUser(db){
+		// 	break
+		// }
+		fmt.Println("Login failed. Please try again.\n")
+	}
 }
