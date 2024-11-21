@@ -59,10 +59,10 @@ func main() {
 		case 9:
 			handlers.SellerRankingReport(db)
 		case 10:
-			fmt.Println("Exiting... Goodbye!")
+			fmt.Print("\nExiting... Goodbye!\n\n")
 			return
 		default:
-			fmt.Println("Invalid choice. Please try again.")
+			fmt.Print("\nInvalid choice. Please try again.\n\n")
 		}
 	}
 }

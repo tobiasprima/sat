@@ -51,7 +51,7 @@ func promptForPeriod() string {
 			return "monthly"
 		default:
 			// Invalid choice loops the prompt again
-			fmt.Println("Invalid choice. Please try again.")
+			fmt.Print("Invalid choice. Please try again.\n\n")
 		}
 	}
 }
@@ -109,9 +109,11 @@ func TotalSalesReport(db *sql.DB) {
 	}
 
 	// Display the data in a table
+	utils.PrintTableTitle("Total Sales Report", startDate, endDate)
 	utils.PrintTable([]string{"Item Name", "Total Quantity Sold", "Total Sales"}, data)
 	fmt.Printf("\nOverall Total Sales: %.2f\n", overallTotalSales)
 	fmt.Printf("Overall Total Items Sold: %d\n", overallTotalItems)
+	utils.EnterTocontinue()
 }
 
 // PopularItemsReport generates a report of popular items for the selected time period.
@@ -161,7 +163,9 @@ func PopularItemsReport(db *sql.DB) {
 	}
 
 	// Display the data in a table
+	utils.PrintTableTitle("Popular Items Report", startDate, endDate)
 	utils.PrintTable([]string{"Item Name", "Times Sold"}, data)
+	utils.EnterTocontinue()
 }
 
 // SellerRankingReport generates a report of sellers ranked by the number of items sold during the selected time period.
@@ -211,5 +215,7 @@ func SellerRankingReport(db *sql.DB) {
 	}
 
 	// Display the data in a table
+	utils.PrintTableTitle("Seller Ranking Report", startDate, endDate)
 	utils.PrintTable([]string{"Seller Name", "Items Sold"}, data)
+	utils.EnterTocontinue()
 }

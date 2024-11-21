@@ -43,16 +43,16 @@ func AddItemInteractive(db *sql.DB) {
 	fmt.Print("Enter item price: ")
 	fmt.Scan(&input)
 	price, err := strconv.ParseFloat(input, 64)
-	if err != nil {
-		fmt.Println("Invalid price format. Please try again.")
+	if err != nil || price < 0 {
+		fmt.Println("Invalid price. Please try again.")
 		return
 	}
 
 	fmt.Print("Enter item stock: ")
 	fmt.Scan(&input)
 	stock, err := strconv.ParseInt(input, 10, 64)
-	if err != nil {
-		fmt.Println("Invalid stock format. Please try again.")
+	if err != nil || stock < 0 {
+		fmt.Println("Invalid stock amount. Please try again.")
 		return
 	}
 

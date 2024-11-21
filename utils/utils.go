@@ -65,3 +65,21 @@ func sumColumnWidths(nums []int) int {
 	}
 	return total // Return the sum of the numbers
 }
+
+// EnterToContinue asks user to press enter to continue the program
+func EnterTocontinue() {
+	var dummy string
+	fmt.Print("\nPress enter to go to main menu...")
+	fmt.Scanln(&dummy)
+}
+
+// PrintTableTitle shows table title
+func PrintTableTitle(title, startDate, endDate string) {
+	fmt.Printf("\n%s: ", title)
+	if startDate == endDate {
+		fmt.Printf("%s\n\n", startDate)
+	} else {
+		fmt.Printf("%s to %s\n\n", startDate, endDate)
+	}
+
+}
