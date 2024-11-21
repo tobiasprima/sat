@@ -43,9 +43,9 @@ func main() {
 		// case 2:
 		// 	handlers.DeleteItem(db)
 		case 3:
-			handlers.AddSeller(db)
+			handlers.AddSellerInteractive(db)
 		case 4:
-			handlers.DeleteSeller(db)
+			handlers.DeleteSellerInteractive(db)
 		// case 5:
 		// 	handlers.TotalSalesReport(db)
 		// case 6:
