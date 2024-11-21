@@ -1,8 +1,11 @@
 package handlers
 
 import (
+	"bufio"
 	"database/sql"
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 )
 
@@ -27,18 +30,33 @@ func AddItem(db *sql.DB, name string, price float64, stock int) {
 // AddItemInteractive handles user input for adding a seller
 func AddItemInteractive(db *sql.DB) {
 	fmt.Print("Enter item name: ")
-	var name string
-	fmt.Scan(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Invalid name format. Please try again.")
+		return
+	}
+	name = name[:len(name)-1]
+
+	var input string
 
 	fmt.Print("Enter item price: ")
-	var price float64
-	fmt.Scan(&price)
+	fmt.Scan(&input)
+	price, err := strconv.ParseFloat(input, 64)
+	if err != nil {
+		fmt.Println("Invalid price format. Please try again.")
+		return
+	}
 
 	fmt.Print("Enter item stock: ")
-	var stock int
-	fmt.Scan(&stock)
+	fmt.Scan(&input)
+	stock, err := strconv.ParseInt(input, 10, 64)
+	if err != nil {
+		fmt.Println("Invalid stock format. Please try again.")
+		return
+	}
 
-	AddItem(db, name, price, stock)
+	AddItem(db, name, price, int(stock))
 }
 
 // DeleteItem deletes an item from the database
@@ -66,8 +84,13 @@ func DeleteItem(db *sql.DB, name string) {
 // DeleteItemInteractive handles user input for deleting an item
 func DeleteItemInteractive(db *sql.DB) {
 	fmt.Print("Enter the name of the item to delete: ")
-	var name string
-	fmt.Scan(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Invalid name format. Please try again.")
+		return
+	}
+	name = name[:len(name)-1]
 
 	DeleteItem(db, name)
 }
