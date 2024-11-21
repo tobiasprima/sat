@@ -23,3 +23,26 @@ func TestCapitalizeName(t *testing.T) {
 		}
 	}
 }
+
+
+func TestValidateEmail(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"john.doe@example.com", true},
+		{"jane.doe123@sub.domain.org", true},
+		{"invalid-email", false},
+		{"@missingusername.com", false},
+		{"missingdomain@.com", false},
+		{"missingatsymbol.com", false},
+		{"", false},
+	}
+
+	for _, test := range tests {
+		result := ValidateEmail(test.input)
+		if result != test.expected {
+			t.Errorf("ValidateEmail(%q) = %v; want %v", test.input, result, test.expected)
+		}
+	}
+}
