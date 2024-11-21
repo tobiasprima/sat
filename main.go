@@ -15,10 +15,10 @@ func main() {
 	// for {
 	// 	fmt.Println("Please log in to continue.")
 	// 	// Login handler disini
-	// 	// if handlers.LoginUser(db){
-	// 	// 	break
-	// 	// }
-	// 	fmt.Println("Login failed. Please try again.\n")
+	// 	if handlers.LoginUser(db) {
+	// 		break
+	// 	}
+	// 	fmt.Print("Login failed. Please try again.\n\n")
 	// }
 
 	// CLI options
@@ -59,4 +59,5 @@ func main() {
 			fmt.Println("Invalid choice. Please try again.")
 		}
 	}
+	fmt.Println("\nWelcome.")
 }
