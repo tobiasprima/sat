@@ -9,15 +9,15 @@ import (
 func main() {
 	db := config.ConnectDatabase()
 	defer db.Close()
-
-	for {
-		fmt.Println("Please log in to continue.")
-		if handlers.LoginUser(db) {
-			fmt.Println("Welcome to the SAT system!")
-			break
-		}
-		fmt.Print("Login failed. Please try again.\n\n")
-	}
+	/*
+		for {
+			fmt.Println("Please log in to continue.")
+			if handlers.LoginUser(db) {
+				fmt.Println("Welcome to the SAT system!")
+				break
+			}
+			fmt.Print("Login failed. Please try again.\n\n")
+		}*/
 
 	// CLI options
 	for {
@@ -42,14 +42,14 @@ func main() {
 			handlers.AddItemInteractive(db)
 		case 2:
 			handlers.DeleteItemInteractive(db)
-		// case 3:
-		// 	handlers.UpdateItemInteractive(db)
+		case 3:
+			handlers.UpdateItemInteractive(db)
 		case 4:
 			handlers.AddSellerInteractive(db)
 		case 5:
 			handlers.DeleteSellerInteractive(db)
 		// case 6:
-		// 	handlers.UpdateSellerInteractive(db)
+		// 	handlers.EditSellerInteractive(db)
 		case 7:
 			handlers.TotalSalesReport(db)
 		case 8:
