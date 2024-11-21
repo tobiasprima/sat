@@ -1,10 +1,17 @@
 CREATE DATABASE sat
 USING sat
 
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(35) UNIQUE,
+    email VARCHAR(35) UNIQUE NOT NULL,
+    password VARCHAR(35) NOT NULL 
+);
+
 CREATE TABLE sellers (
     seller_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(35) NOT NULL,
-    email VARCHAR(35) NOT NULL 
+    email VARCHAR(35) UNIQUE NOT NULL 
 );
 
 CREATE TABLE items (
