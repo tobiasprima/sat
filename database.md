@@ -63,7 +63,7 @@ C. Type: One to Many
 - The Price in items, orders, order_details should be a positive float.
 - The stock in items should be a positive integer.
 - The quantity in order details should be a positive integer.
-- The email in sellers should have email format.
+- The email in sellers should have email format and must be unique.
 
 ## Additional Notes:
 - The Order Details table allows the system to handle orders with multiple items.
