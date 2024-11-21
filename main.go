@@ -12,14 +12,13 @@ func main() {
 
 	fmt.Println("Welcome to the SAT system!")
 
-	// for {
-	// 	fmt.Println("Please log in to continue.")
-	// 	// Login handler disini
-	// 	if handlers.LoginUser(db) {
-	// 		break
-	// 	}
-	// 	fmt.Print("Login failed. Please try again.\n\n")
-	// }
+	for {
+		fmt.Println("Please log in to continue.")
+		if handlers.LoginUser(db) {
+			break
+		}
+		fmt.Print("Login failed. Please try again.\n\n")
+	}
 
 	// CLI options
 	for {
