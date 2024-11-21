@@ -1,3 +1,7 @@
+INSERT INTO users(username, email, password) VALUES
+("admin", "admin@mail.com", "12345678");
+
+
 INSERT INTO sellers(name, email) VALUES
 ("Abraham", "abraham@mail.com"),
 ("Benjamin", "benjamin@mail.com"),

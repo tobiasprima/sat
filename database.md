@@ -5,14 +5,21 @@ Entity: Table_Name (e.g., Customers)
 
 ## Attributes:
 
-A. Entity: sellers
+A. Entity: users
+- Attributes:
+- user_id INT (PK, AI)
+- username VARCHAR(35) UNIQUE
+- email VARCHAR(35) UNIQUE NOT NULL
+- password VARCHAR(35) NOT NULL
+
+B. Entity: sellers
 
 - Attributes:
 - seller_id INT (PK, AI)
 - name VARCHAR(35) NOT NULL 
 - email VARCHAR(35) NOT NULL 
 
-B. Entity: items
+C. Entity: items
 
 - Attributes:
 - item_id INT (PK, AI)
@@ -20,7 +27,7 @@ B. Entity: items
 - price FLOAT
 - stock INT
 
-C. Entity: orders
+D. Entity: orders
 
 - Attributes:
 - order_id INT (PK, AI)
@@ -28,7 +35,7 @@ C. Entity: orders
 - amount FLOAT
 - date DATE DEFAULT NOW
 
-D. Entity: order_details
+E. Entity: order_details
 
 - Attributes:
 - order_detail_id INT (PK, AI)
