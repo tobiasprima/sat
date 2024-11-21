@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"SAT/utils"
 	"database/sql"
 	"fmt"
 )
@@ -13,6 +14,13 @@ func AddSeller(db *sql.DB){
 	fmt.Print("Enter seller email: ")
 	var email string
 	fmt.Scan(&email)
+
+	// Format the name and validate the email
+	name = utils.CapitalizeName(name)
+	if !utils.ValidateEmail(email) {
+		fmt.Println("Invalid email format. Please try again.")
+		return
+	}
 
 	query := `
 	INSERT INTO Sellers (name, email)
