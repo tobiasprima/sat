@@ -2,6 +2,7 @@ package main
 
 import (
 	"SAT/config"
+	"SAT/handlers"
 	"fmt"
 )
 
@@ -37,22 +38,23 @@ func main() {
 		fmt.Scan(&choice)
 
 		switch choice {
-		case 1:
-			handlers.AddItem(db)
-		case 2:
-			handlers.DeleteItem(db)
+		// case 1:
+		// 	handlers.AddItem(db)
+		// case 2:
+		// 	handlers.DeleteItem(db)
 		case 3:
 			handlers.AddSeller(db)
-		case 4:
-			handlers.DeleteSeller(db)
-		case 5:
-			handlers.TotalSalesReport(db)
-		case 6:
-			handlers.ListPopularItems(db)
-		case 7:
-			handlers.ListSellers(db)
+		// case 4:
+		// 	handlers.DeleteSeller(db)
+		// case 5:
+		// 	handlers.TotalSalesReport(db)
+		// case 6:
+		// 	handlers.ListPopularItems(db)
+		// case 7:
+		// 	handlers.ListSellers(db)
 		case 8:
 			fmt.Println("Exiting... Goodbye!")
+			return
 		default:
 			fmt.Println("Invalid choice. Please try again.")
 		}
