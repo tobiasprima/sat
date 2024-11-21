@@ -7,7 +7,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// ConnectDatabase connects to database on supabase
+// ConnectDatabase connects to database on supabase it returns pointer to database
 func ConnectDatabase() *sql.DB {
 	// database connection data
 	db_name := "postgres"

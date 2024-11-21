@@ -69,7 +69,7 @@ func sumColumnWidths(nums []int) int {
 // EnterToContinue asks user to press enter to continue the program
 func EnterTocontinue() {
 	var dummy string
-	fmt.Print("\nPress enter to go to main menu...")
+	fmt.Print("\nPress enter to go to main menu:")
 	fmt.Scanln(&dummy)
 }
 

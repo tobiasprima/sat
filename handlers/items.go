@@ -91,6 +91,7 @@ func DeleteItemInteractive(db *sql.DB) {
 		return
 	}
 	name = name[:len(name)-1]
+	name = strings.ToLower(name)
 
 	DeleteItem(db, name)
 }
