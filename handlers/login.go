@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+
+	"golang.org/x/term"
 )
 
 func LoginUser(db *sql.DB) bool {
@@ -12,8 +14,8 @@ func LoginUser(db *sql.DB) bool {
 	fmt.Scan(&inputEmail)
 
 	fmt.Print("Input password:")
-	var inputPassword string
-	fmt.Scan(&inputPassword)
+	passwordByte, _ := term.ReadPassword(0)
+	inputPassword := string(passwordByte)
 
 	rows, err := db.Query("SELECT email, password FROM users")
 	if err != nil {
