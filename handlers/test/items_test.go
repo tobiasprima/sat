@@ -20,7 +20,7 @@ func TestAddItem(t *testing.T) {
 		WithArgs("device", 100000.0, 100).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
-	// Call AddSeller with test inputs
+	// Call AddItem with test inputs
 	handlers.AddItem(db, "device", 100000.0, 100)
 
 	// Assert expectations
@@ -42,7 +42,7 @@ func TestDeleteItem(t *testing.T) {
 		WithArgs("device").
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
-	// Call DeleteSeller with test input
+	// Call DeleteItem with test input
 	handlers.DeleteItem(db, "device")
 
 	// Assert expectations
