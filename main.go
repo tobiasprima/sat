@@ -10,11 +10,10 @@ func main() {
 	db := config.ConnectDatabase()
 	defer db.Close()
 
-	fmt.Println("Welcome to the SAT system!")
-
 	for {
 		fmt.Println("Please log in to continue.")
 		if handlers.LoginUser(db) {
+			fmt.Println("Welcome to the SAT system!")
 			break
 		}
 		fmt.Print("Login failed. Please try again.\n\n")
@@ -37,10 +36,10 @@ func main() {
 		fmt.Scan(&choice)
 
 		switch choice {
-		// case 1:
-		// 	handlers.AddItem(db)
-		// case 2:
-		// 	handlers.DeleteItem(db)
+		case 1:
+			handlers.AddItemInteractive(db)
+		case 2:
+			handlers.DeleteItemInteractive(db)
 		case 3:
 			handlers.AddSellerInteractive(db)
 		case 4:
