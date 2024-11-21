@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"SAT/utils"
+	"bufio"
 	"database/sql"
 	"fmt"
+	"os"
 )
 
 // AddSeller adds a new seller to the database
@@ -32,8 +34,13 @@ func AddSeller(db *sql.DB, name string, email string) {
 // AddSellerInteractive handles user input for adding a seller
 func AddSellerInteractive(db *sql.DB) {
 	fmt.Print("Enter seller name: ")
-	var name string
-	fmt.Scan(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Invalid name format. Please try again.")
+		return
+	}
+	name = name[:len(name)-1]
 
 	fmt.Print("Enter seller email: ")
 	var email string
@@ -41,7 +48,6 @@ func AddSellerInteractive(db *sql.DB) {
 
 	AddSeller(db, name, email)
 }
-
 
 // DeleteSeller deletes a seller from the database
 func DeleteSeller(db *sql.DB, email string) {
