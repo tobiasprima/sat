@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-
+// CapitalizeName ensures the first letter of each word is capitalized
 func CapitalizeName(name string) string {
 	words := strings.Fields(name)
 	for i, word := range words {
@@ -16,6 +16,7 @@ func CapitalizeName(name string) string {
 	return strings.Join(words, " ")
 }
 
+// ValidateEmail checks if the input is a valid email format
 func ValidateEmail(email string) bool {
 	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
 	re := regexp.MustCompile(emailRegex)
