@@ -6,15 +6,8 @@ import (
 	"fmt"
 )
 
-func AddSeller(db *sql.DB){
-	fmt.Print("Enter seller name: ")
-	var name string
-	fmt.Scan(&name)
-
-	fmt.Print("Enter seller email: ")
-	var email string
-	fmt.Scan(&email)
-
+// AddSeller adds a new seller to the database
+func AddSeller(db *sql.DB, name string, email string) {
 	// Format the name and validate the email
 	name = utils.CapitalizeName(name)
 	if !utils.ValidateEmail(email) {
@@ -23,11 +16,11 @@ func AddSeller(db *sql.DB){
 	}
 
 	query := `
-	INSERT INTO Sellers (name, email)
-	VALUES ($1, $2)
+		INSERT INTO Sellers (name, email)
+		VALUES ($1, $2)
 	`
 
-	_, err := db.Exec(query, name ,email)
+	_, err := db.Exec(query, name, email)
 	if err != nil {
 		fmt.Printf("Error adding seller: %v\n", err)
 		return
@@ -36,16 +29,28 @@ func AddSeller(db *sql.DB){
 	fmt.Println("Seller added successfully!")
 }
 
-func DeleteSeller(db *sql.DB){
-	fmt.Print("Enter the email of the seller to delete: ")
-	var sellerEmail string
-	fmt.Scan(&sellerEmail)
+// AddSellerInteractive handles user input for adding a seller
+func AddSellerInteractive(db *sql.DB) {
+	fmt.Print("Enter seller name: ")
+	var name string
+	fmt.Scan(&name)
 
+	fmt.Print("Enter seller email: ")
+	var email string
+	fmt.Scan(&email)
+
+	AddSeller(db, name, email)
+}
+
+
+// DeleteSeller deletes a seller from the database
+func DeleteSeller(db *sql.DB, email string) {
 	query := `
-	DELETE FROM Sellers
-	WHERE email = $1
+		DELETE FROM Sellers
+		WHERE email = $1
 	`
-	result, err := db.Exec(query, sellerEmail)
+
+	result, err := db.Exec(query, email)
 	if err != nil {
 		fmt.Printf("Error deleting seller: %v\n", err)
 		return
@@ -57,5 +62,14 @@ func DeleteSeller(db *sql.DB){
 		return
 	}
 
-	fmt.Println("Seller deleted successfully")
+	fmt.Println("Seller deleted successfully!")
+}
+
+// DeleteSellerInteractive handles user input for deleting a seller
+func DeleteSellerInteractive(db *sql.DB) {
+	fmt.Print("Enter the email of the seller to delete: ")
+	var email string
+	fmt.Scan(&email)
+
+	DeleteSeller(db, email)
 }
