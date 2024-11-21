@@ -7,9 +7,11 @@ import (
 )
 
 func main() {
+	// connect to database
 	db := config.ConnectDatabase()
 	defer db.Close()
 
+	// log in process
 	for {
 		fmt.Println("Please log in to continue.")
 		if handlers.LoginUser(db) {
@@ -63,5 +65,4 @@ func main() {
 			fmt.Println("Invalid choice. Please try again.")
 		}
 	}
-	fmt.Println("\nWelcome.")
 }

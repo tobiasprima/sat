@@ -3,10 +3,12 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 )
 
-// AddSeller adds a new item to the database
+// AddItem adds a new item to the database
 func AddItem(db *sql.DB, name string, price float64, stock int) {
+	name = strings.ToLower(name)
 
 	query := `
 		INSERT INTO items (name, price, stock)

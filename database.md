@@ -23,7 +23,7 @@ C. Entity: items
 
 - Attributes:
 - item_id INT (PK, AI)
-- name VARCHAR(35) NOT NULL 
+- name VARCHAR(35) UNIQUE NOT NULL 
 - price FLOAT
 - stock INT
 

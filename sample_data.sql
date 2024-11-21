@@ -1,7 +1,8 @@
+-- populate users table
 INSERT INTO users(username, email, password) VALUES
 ("admin", "admin@mail.com", "12345678");
 
-
+-- populate sellers table
 INSERT INTO sellers(name, email) VALUES
 ("Abraham", "abraham@mail.com"),
 ("Benjamin", "benjamin@mail.com"),
@@ -9,6 +10,7 @@ INSERT INTO sellers(name, email) VALUES
 ("David", "david@mail.com"),
 ("Edison", "edison@mail.com");
 
+-- populate items table
 INSERT INTO items(name, price, stock) VALUES
 ("desktop", 11500000, 50),
 ("laptop", 7800000, 80),
@@ -21,6 +23,7 @@ INSERT INTO items(name, price, stock) VALUES
 ("head set", 1100000, 200),
 ("laser pointer", 500000, 200);
 
+-- populate orders table
 INSERT INTO orders(seller_id, amount, date) VALUES
 (1, 23000000, '2024-11-22'),
 (1, 9200000, '2024-11-22'),
@@ -43,6 +46,7 @@ INSERT INTO orders(seller_id, amount, date) VALUES
 (5, 15600000, '2024-11-18'),
 (5, 500000, '2024-11-18');
 
+-- populate order details table
 INSERT INTO order_details(order_id, item_id, quantity, price) VALUES
 (1, 1, 1, 11500000),
 (1, 3, 2, 11000000),
