@@ -110,9 +110,9 @@ func TotalSalesReport(db *sql.DB) {
 
 	// Display the data in a table
 	utils.PrintTableTitle("Total Sales Report", startDate, endDate)
-	utils.PrintTable([]string{"Item Name", "Total Quantity Sold", "Total Sales"}, data)
-	fmt.Printf("\nOverall Total Sales: %.2f\n", overallTotalSales)
-	fmt.Printf("Overall Total Items Sold: %d\n", overallTotalItems)
+	utils.PrintTable([]string{"Item Name", "Total Quantity Sold", "Total Sales (Rp.)"}, data)
+	fmt.Printf("\nOverall Total Sales: Rp. %.2f\n", overallTotalSales)
+	fmt.Printf("Overall Total Items Sold: %d items\n", overallTotalItems)
 	utils.EnterTocontinue()
 }
 
