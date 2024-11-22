@@ -11,12 +11,12 @@ import (
 // LoginUser asks for email and password until succeed
 func LoginUser(db *sql.DB) bool {
 	// prompt and ask for user email
-	fmt.Print("Input user email:")
+	fmt.Print("Input user email: ")
 	var inputEmail string
 	fmt.Scan(&inputEmail)
 
 	// prompt and ask for user password
-	fmt.Print("Input password:")
+	fmt.Print("Input password: ")
 	passwordByte, _ := term.ReadPassword(0)
 	inputPassword := string(passwordByte)
 

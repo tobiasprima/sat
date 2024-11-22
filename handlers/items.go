@@ -5,12 +5,13 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 )
 
-var scanner = bufio.NewScanner(os.Stdin)
-
-// AddSeller adds a new item to the database
+// AddItem adds a new item to the database
 func AddItem(db *sql.DB, name string, price float64, stock int) {
+	name = strings.ToLower(name)
 
 	query := `
 		INSERT INTO items (name, price, stock)
@@ -29,18 +30,33 @@ func AddItem(db *sql.DB, name string, price float64, stock int) {
 // AddItemInteractive handles user input for adding a seller
 func AddItemInteractive(db *sql.DB) {
 	fmt.Print("Enter item name: ")
-	var name string
-	fmt.Scan(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Invalid name format. Please try again.")
+		return
+	}
+	name = name[:len(name)-1]
+
+	var input string
 
 	fmt.Print("Enter item price: ")
-	var price float64
-	fmt.Scan(&price)
+	fmt.Scan(&input)
+	price, err := strconv.ParseFloat(input, 64)
+	if err != nil || price < 0 {
+		fmt.Println("Invalid price. Please try again.")
+		return
+	}
 
 	fmt.Print("Enter item stock: ")
-	var stock int
-	fmt.Scan(&stock)
+	fmt.Scan(&input)
+	stock, err := strconv.ParseInt(input, 10, 64)
+	if err != nil || stock < 0 {
+		fmt.Println("Invalid stock amount. Please try again.")
+		return
+	}
 
-	AddItem(db, name, price, stock)
+	AddItem(db, name, price, int(stock))
 }
 
 // DeleteItem deletes an item from the database
@@ -68,8 +84,14 @@ func DeleteItem(db *sql.DB, name string) {
 // DeleteItemInteractive handles user input for deleting an item
 func DeleteItemInteractive(db *sql.DB) {
 	fmt.Print("Enter the name of the item to delete: ")
-	var name string
-	fmt.Scan(&name)
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Invalid name format. Please try again.")
+		return
+	}
+	name = name[:len(name)-1]
+	name = strings.ToLower(name)
 
 	DeleteItem(db, name)
 }
@@ -95,20 +117,13 @@ func UpdateItem(db *sql.DB, column, newValue string, name string) error {
 // UpdateItemInteractive handles user input for updating items
 // Users can choose to edit the name, price, or stock, and see current values before making changes.
 func UpdateItemInteractive(db *sql.DB) {
-	fmt.Print("Enter item wants to edit: ")
-	reader := bufio.NewReader(os.Stdin)
-	name, err := reader.ReadString('\n')
-	if err != nil {
-		fmt.Println("Invalid name format. Please try again.")
-		return
-	}
-	name = name[:len(name)-1]
-	fmt.Println(name)
-	//var name string
-	//fmt.Scanf("%[^\n]", &name)
+	reader := bufio.NewReader(os.Stdin) // Create buffered reader for user input
+	fmt.Print("Enter the name of the item to edit: ")
+	name, _ := reader.ReadString('\n') // Read the full line of input
+	name = strings.TrimSpace(name)     // Trim any extra spaces or newlines
 
 	// Variables to hold the current item details
-	/*var currentName string
+	var currentName string
 	var currentPrice float64
 	var currentStock int
 
@@ -144,8 +159,8 @@ func UpdateItemInteractive(db *sql.DB) {
 		case 1:
 			// Handle editing the item name
 			fmt.Print("Enter new name: ")
-			var newName string
-			fmt.Scan(&newName)
+			newName, _ := reader.ReadString('\n') // Read the full line of input
+			newName = strings.TrimSpace(newName)
 			if newName == currentName {
 				fmt.Println("No changes made to the name.") // No update if the name is unchanged
 			} else {
@@ -155,7 +170,7 @@ func UpdateItemInteractive(db *sql.DB) {
 					return
 				}
 				currentName = newName // Update the local variable to reflect the change
-				fmt.Println("Name updated successfully!")
+				fmt.Printf("Name updated successfully! New Name: %s\n", currentName)
 			}
 		case 2:
 			// Handle editing the item price
@@ -171,7 +186,7 @@ func UpdateItemInteractive(db *sql.DB) {
 					return
 				}
 				currentPrice = newPrice // Update the local variable to reflect the change
-				fmt.Println("Price updated successfully!")
+				fmt.Printf("Price updated successfully! New Price: %.2f\n", currentPrice)
 			}
 		case 3:
 			// Handle editing the item stock
@@ -187,7 +202,7 @@ func UpdateItemInteractive(db *sql.DB) {
 					return
 				}
 				currentStock = newStock // Update the local variable to reflect the change
-				fmt.Println("Stock updated successfully!")
+				fmt.Printf("Stock updated successfully! New Stock: %d\n", currentStock)
 			}
 		case 4:
 			// Exit the editing menu
@@ -197,5 +212,5 @@ func UpdateItemInteractive(db *sql.DB) {
 			// Handle invalid menu choices
 			fmt.Println("Invalid choice. Please try again.")
 		}
-	}*/
+	}
 }
