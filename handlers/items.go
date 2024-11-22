@@ -1,9 +1,13 @@
 package handlers
 
 import (
+	"bufio"
 	"database/sql"
 	"fmt"
+	"os"
 )
+
+var scanner = bufio.NewScanner(os.Stdin)
 
 // AddSeller adds a new item to the database
 func AddItem(db *sql.DB, name string, price float64, stock int) {
@@ -91,12 +95,20 @@ func UpdateItem(db *sql.DB, column, newValue string, name string) error {
 // UpdateItemInteractive handles user input for updating items
 // Users can choose to edit the name, price, or stock, and see current values before making changes.
 func UpdateItemInteractive(db *sql.DB) {
-	fmt.Print("Enter the name of the item to edit: ")
-	var name string
-	fmt.Scan(&name)
+	fmt.Print("Enter item wants to edit: ")
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Invalid name format. Please try again.")
+		return
+	}
+	name = name[:len(name)-1]
+	fmt.Println(name)
+	//var name string
+	//fmt.Scanf("%[^\n]", &name)
 
 	// Variables to hold the current item details
-	var currentName string
+	/*var currentName string
 	var currentPrice float64
 	var currentStock int
 
@@ -185,5 +197,5 @@ func UpdateItemInteractive(db *sql.DB) {
 			// Handle invalid menu choices
 			fmt.Println("Invalid choice. Please try again.")
 		}
-	}
+	}*/
 }

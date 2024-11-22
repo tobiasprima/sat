@@ -10,16 +10,16 @@ func main() {
 	// connect to database
 	db := config.ConnectDatabase()
 	defer db.Close()
-
-	// log in process
-	for {
-		fmt.Println("Please log in to continue.")
-		if handlers.LoginUser(db) {
-			fmt.Println("Welcome to the SAT system!")
-			break
-		}
-		fmt.Print("Login failed. Please try again.\n\n")
-	}
+	/*
+		// log in process
+		for {
+			fmt.Println("Please log in to continue.")
+			if handlers.LoginUser(db) {
+				fmt.Println("Welcome to the SAT system!")
+				break
+			}
+			fmt.Print("Login failed. Please try again.\n\n")
+		}*/
 
 	// CLI options
 	for {
@@ -50,8 +50,8 @@ func main() {
 			handlers.AddSellerInteractive(db)
 		case 5:
 			handlers.DeleteSellerInteractive(db)
-		// case 6:
-		// 	handlers.UpdateSellerInteractive(db)
+		case 6:
+			handlers.UpdateSellerInteractive(db)
 		case 7:
 			handlers.TotalSalesReport(db)
 		case 8:
