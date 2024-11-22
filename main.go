@@ -50,8 +50,8 @@ func main() {
 			handlers.AddSellerInteractive(db)
 		case 5:
 			handlers.DeleteSellerInteractive(db)
-		// case 6:
-		// 	handlers.UpdateSellerInteractive(db)
+		case 6:
+			handlers.UpdateSellerInteractive(db)
 		case 7:
 			handlers.TotalSalesReport(db)
 		case 8:
