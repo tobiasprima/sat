@@ -33,7 +33,7 @@ func formatDateRange(period string) (string, string, error) {
 // Returns the chosen period as a string.
 func promptForPeriod() string {
 	for {
-		fmt.Println("Choose a time period:")
+		fmt.Println("\nChoose a time period:")
 		fmt.Println("1. Daily")
 		fmt.Println("2. Weekly")
 		fmt.Println("3. Monthly")
@@ -51,7 +51,7 @@ func promptForPeriod() string {
 			return "monthly"
 		default:
 			// Invalid choice loops the prompt again
-			fmt.Print("Invalid choice. Please try again.\n\n")
+			fmt.Print("Invalid choice. Please try again.\n")
 		}
 	}
 }

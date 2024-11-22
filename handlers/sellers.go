@@ -154,6 +154,7 @@ func UpdateSellerInteractive(db *sql.DB) {
 			fmt.Print("Enter new name: ")
 			newName, _ := reader.ReadString('\n') // Read multi-word input.
 			newName = strings.TrimSpace(newName)  // Remove extra spaces.
+			newName = utils.CapitalizeName(newName)
 
 			// Check if the new name is the same as the current name.
 			if strings.EqualFold(newName, currentName) {
@@ -173,6 +174,10 @@ func UpdateSellerInteractive(db *sql.DB) {
 			fmt.Print("Enter new email: ")
 			newEmail, _ := reader.ReadString('\n') // Read multi-word input.
 			newEmail = strings.TrimSpace(newEmail) // Remove extra spaces.
+			if !utils.ValidateEmail(newEmail) {
+				fmt.Println("Invalid email format. Please try again.")
+				return
+			}
 
 			// Check if the new email is the same as the current email.
 			if strings.EqualFold(newEmail, currentEmail) {
