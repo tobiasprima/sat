@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // AddSeller adds a new seller to the database
@@ -80,52 +81,64 @@ func DeleteSellerInteractive(db *sql.DB) {
 	DeleteSeller(db, email)
 }
 
-// UpdateSeller updates seller from the databse
-func UpdateSeller(db *sql.DB, column, newValue string, email string) error {
-	// Prepare the SQL query dynamically for the specified column
-	query := fmt.Sprintf(`
-		UPDATE sellers
-		SET %s = $1
-		WHERE email = $2
-	`, column)
-
-	// Execute the query with the provided new value and item name
-	_, err := db.Exec(query, newValue, email)
-	if err != nil {
-		return fmt.Errorf("error updating item: %v", err)
+// UpdateSeller updates a seller from the database
+func UpdateSeller(db *sql.DB, column, newValue, email string) error {
+	// Validate column to prevent SQL injection.
+	validColumns := map[string]bool{
+		"name":  true,
+		"email": true,
+	}
+	if !validColumns[column] { // Check if the specified column is allowed.
+		return fmt.Errorf("invalid column specified: %s", column)
 	}
 
-	return nil // Return nil if no error occurs
+	// Dynamically prepare the SQL query with the validated column name.
+	query := fmt.Sprintf(`UPDATE sellers SET %s = $1 WHERE email = $2`, column)
+
+	// Execute the query, binding the new value and email parameters to prevent injection.
+	_, err := db.Exec(query, newValue, email)
+	if err != nil {
+		return fmt.Errorf("error updating seller: %v", err) // Return error with detailed message.
+	}
+
+	return nil // Return nil if no error occurs.
 }
 
-// UpdateSellerInteractive handles user input for updating sellers
-// Users can choose to edit the name, or email, and see current values before making changes.
+// UpdateSellerInteractive handles user input for updating a seller
+// This function provides a menu to update either the seller's name or email.
 func UpdateSellerInteractive(db *sql.DB) {
-	fmt.Print("Enter the email of the seller to edit: ")
-	var email string
-	fmt.Scan(&email)
+	reader := bufio.NewReader(os.Stdin) // Use bufio.Reader for multi-word input.
 
-	// Variables to hold the current item details
+	// Prompt user for the seller's email to identify the record.
+	fmt.Print("Enter the email of the seller to edit: ")
+	email, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error reading input:", err) // Handle input errors.
+		return
+	}
+	email = strings.TrimSpace(email) // Remove any leading/trailing whitespace.
+
+	// Variables to hold the current seller details.
 	var currentName, currentEmail string
 
-	// Fetch current item details from the database
-	err := db.QueryRow(`
+	// Fetch the seller's current details from the database.
+	err = db.QueryRow(`
 		SELECT name, email
 		FROM sellers
 		WHERE email = $1
 	`, email).Scan(&currentName, &currentEmail)
 
 	if err != nil {
-		fmt.Println("Seller not found.") // Notify if the item doesn't exist
+		fmt.Printf("Seller with email '%s' not found.\n", email)
 		return
 	}
 
-	// Loop to allow multiple edits until the user chooses to exit
+	// Allow the user to make multiple updates in a loop.
 	for {
-		// Display the current user details for reference
+		// Display the current details of the seller for reference.
 		fmt.Printf("\nCurrent Details:\nName: %s | Email: %s\n", currentName, currentEmail)
 
-		// Display the options menu for editing
+		// Display the menu for updating seller details.
 		fmt.Println("\nWhat would you like to edit?")
 		fmt.Println("1. Edit name")
 		fmt.Println("2. Edit email")
@@ -133,60 +146,53 @@ func UpdateSellerInteractive(db *sql.DB) {
 		fmt.Print("Your choice: ")
 
 		var choice int
-		fmt.Scan(&choice) // Get user input for menu choice
+		fmt.Scan(&choice) // Get user's choice.
 
 		switch choice {
 		case 1:
-			// Handle editing the item name
+			// Handle updating the seller's name.
 			fmt.Print("Enter new name: ")
-			reader := bufio.NewReader(os.Stdin)
-			newName, err := reader.ReadString('\n')
-			if err != nil {
-				fmt.Println("Invalid name format. Please try again.")
-				return
-			}
-			newName = newName[:len(newName)-1]
-			newName = utils.CapitalizeName(newName)
+			newName, _ := reader.ReadString('\n') // Read multi-word input.
+			newName = strings.TrimSpace(newName)  // Remove extra spaces.
 
-			if newName == currentName {
-				fmt.Println("No changes made to the name.") // No update if the name is unchanged
+			// Check if the new name is the same as the current name.
+			if strings.EqualFold(newName, currentName) {
+				fmt.Println("No changes made to the name.")
 			} else {
-				err := UpdateSeller(db, "name", newName, email)
+				// Perform the database update.
+				err := UpdateSeller(db, "name", newName, currentEmail)
 				if err != nil {
-					fmt.Println(err) // Print error if update fails
+					fmt.Println(err) // Print error if the update fails.
 					return
 				}
-				currentName = newName // Update the local variable to reflect the change
-				fmt.Println("Name updated successfully!")
+				currentName = newName // Update local variable to reflect the change.
+				fmt.Printf("Name updated successfully! New Name: %s\n", currentName)
 			}
 		case 2:
-			// Handle editing the item price
+			// Handle updating the seller's email.
 			fmt.Print("Enter new email: ")
-			var newEmail string
-			fmt.Scan(&newEmail)
+			newEmail, _ := reader.ReadString('\n') // Read multi-word input.
+			newEmail = strings.TrimSpace(newEmail) // Remove extra spaces.
 
-			if !utils.ValidateEmail(newEmail) {
-				fmt.Println("Invalid email format. Please try again.")
-				return
-			}
-
-			if newEmail == currentEmail {
-				fmt.Println("No changes made to the email.") // No update if the price is unchanged
+			// Check if the new email is the same as the current email.
+			if strings.EqualFold(newEmail, currentEmail) {
+				fmt.Println("No changes made to the email.")
 			} else {
-				err := UpdateSeller(db, "email", newEmail, email)
+				// Perform the database update.
+				err := UpdateSeller(db, "email", newEmail, currentEmail)
 				if err != nil {
-					fmt.Println(err) // Print error if update fails
+					fmt.Println(err) // Print error if the update fails.
 					return
 				}
-				currentEmail = newEmail // Update the local variable to reflect the change
-				fmt.Println("Email updated successfully!")
+				currentEmail = newEmail // Update local variable to reflect the change.
+				fmt.Printf("Email updated successfully! New Email: %s\n", currentEmail)
 			}
 		case 3:
-			// Exit the editing menu
-			fmt.Println("Exiting item edit menu.")
+			// Exit the update menu.
+			fmt.Println("Exiting seller update menu.")
 			return
 		default:
-			// Handle invalid menu choices
+			// Handle invalid menu choices.
 			fmt.Println("Invalid choice. Please try again.")
 		}
 	}
