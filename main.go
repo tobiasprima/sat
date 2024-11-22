@@ -7,17 +7,19 @@ import (
 )
 
 func main() {
+	// connect to database
 	db := config.ConnectDatabase()
 	defer db.Close()
-	/*
-		for {
-			fmt.Println("Please log in to continue.")
-			if handlers.LoginUser(db) {
-				fmt.Println("Welcome to the SAT system!")
-				break
-			}
-			fmt.Print("Login failed. Please try again.\n\n")
-		}*/
+
+	// log in process
+	for {
+		fmt.Println("Please log in to continue.")
+		if handlers.LoginUser(db) {
+			fmt.Println("Welcome to the SAT system!")
+			break
+		}
+		fmt.Print("Login failed. Please try again.\n\n")
+	}
 
 	// CLI options
 	for {
@@ -42,14 +44,14 @@ func main() {
 			handlers.AddItemInteractive(db)
 		case 2:
 			handlers.DeleteItemInteractive(db)
-		//case 3:
-		//handlers.UpdateItemInteractive(db)
+		case 3:
+			handlers.UpdateItemInteractive(db)
 		case 4:
 			handlers.AddSellerInteractive(db)
 		case 5:
 			handlers.DeleteSellerInteractive(db)
 		// case 6:
-		// 	handlers.EditSellerInteractive(db)
+		// 	handlers.UpdateSellerInteractive(db)
 		case 7:
 			handlers.TotalSalesReport(db)
 		case 8:
@@ -57,11 +59,10 @@ func main() {
 		case 9:
 			handlers.SellerRankingReport(db)
 		case 10:
-			fmt.Println("Exiting... Goodbye!")
+			fmt.Print("\nExiting... Goodbye!\n\n")
 			return
 		default:
-			fmt.Println("Invalid choice. Please try again.")
+			fmt.Print("\nInvalid choice. Please try again.\n\n")
 		}
 	}
-	fmt.Println("\nWelcome.")
 }
