@@ -24,7 +24,6 @@ func TestCapitalizeName(t *testing.T) {
 	}
 }
 
-
 func TestValidateEmail(t *testing.T) {
 	tests := []struct {
 		input    string
