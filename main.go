@@ -42,8 +42,8 @@ func main() {
 			handlers.AddItemInteractive(db)
 		case 2:
 			handlers.DeleteItemInteractive(db)
-		case 3:
-			handlers.UpdateItemInteractive(db)
+		//case 3:
+		//handlers.UpdateItemInteractive(db)
 		case 4:
 			handlers.AddSellerInteractive(db)
 		case 5:
